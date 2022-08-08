@@ -1,5 +1,24 @@
 ### Binary Tree Nodes
 
+You are given a table, BST, containing two columns: `N` and `P`, where `N` represents the value of a node in Binary Tree, and `P` is the parent of `N`.
+
+Write a query to find the node type of Binary Tree ordered by the value of the node. Output one of the following for each node:
+- Root: If node is root node.
+- Leaf: If node is leaf node.
+- Inner: If node is neither root nor leaf node.
+<br>
+
+        SELECT
+            N,
+            CASE
+            WHEN N IN (SELECT N FROM BST WHERE P IS NULL) THEN "Root" 
+            WHEN NOT N IN (SELECT N FROM BST WHERE N IN (SELECT P FROM BST)) THEN "Leaf"
+            ELSE "Inner"
+            END
+        FROM BST
+        ORDER BY N
+
+
 ### New Companies
 
 Amber's conglomerate corporation just acquired some new companies. Each of the companies follows this hierarchy:
@@ -30,4 +49,3 @@ will be C_1, C_10, and C_2.
         INNER JOIN Lead_Manager lm ON lm.company_code = c.company_code
         GROUP BY c.company_code, c.founder
         ORDER BY c.company_code
-
