@@ -24,8 +24,8 @@ Write a query identifying the type of each record in the **TRIANGLES** table usi
 ### The PADS
 
 Generate the following two result sets:
-1. Query an alphabetically ordered list of all `names` in OCCUPATIONS, immediately followed by the first letter of each `profession` as a parenthetical (i.e.: enclosed in parentheses). For example: AnActorName(A), ADoctorName(D), AProfessorName(P), and ASingerName(S).
-2. Query the number of ocurrences of each `occupation` in OCCUPATIONS. Sort the occurrences in ascending order, and output them in the following format:
+1. Query an alphabetically ordered list of all `names` in **OCCUPATIONS**, immediately followed by the first letter of each `profession` as a parenthetical (i.e.: enclosed in parentheses). For example: AnActorName(A), ADoctorName(D), AProfessorName(P), and ASingerName(S).
+2. Query the number of ocurrences of each `occupation` in **OCCUPATIONS**. Sort the occurrences in ascending order, and output them in the following format:
  `There are a total of [occupation_count] [occupation]s.` Where `[occupation_count]` is the number of occurrences of an occupation in OCCUPATIONS and `[occupation]` is the lowercase occupation name. If more than one Occupation has the same `[occupation_count]`, they should be ordered alphabetically.
 
 **Note**: There will be at least two entries in the table for each type of occupation.
@@ -46,7 +46,7 @@ Generate the following two result sets:
 
 ### Occupations
 
-Pivot the `Occupation` column in OCCUPATIONS so that each `Name` is sorted alphabetically and displayed underneath its corresponding Occupation. The output column headers should be `Doctor`, `Professor`, `Singer`, and `Actor`, respectively.
+Pivot the `Occupation` column in **OCCUPATIONS** so that each `Name` is sorted alphabetically and displayed underneath its corresponding Occupation. The output column headers should be `Doctor`, `Professor`, `Singer`, and `Actor`, respectively.
 
 **Note**: Print NULL when there are no more names corresponding to an occupation.
 
@@ -76,7 +76,7 @@ Occupation will only contain one of the following values: Doctor, Professor, Sin
 
 ### Binary Tree Nodes
 
-You are given a table, BST, containing two columns: `N` and `P`, where `N` represents the value of a node in Binary Tree, and `P` is the parent of `N`.
+You are given a table, **BST**, containing two columns: `N` and `P`, where `N` represents the value of a node in Binary Tree, and `P` is the parent of `N`.
 
 Write a query to find the node type of Binary Tree ordered by the value of the node. Output one of the following for each node:
 - Root: If node is root node.
@@ -103,6 +103,8 @@ Founder &#8594; Lead Manager &#8594; Senior Manager &#8594; Manager &#8594; Empl
 
 Given the table schemas below, write a query to print the `company_code`, `founder name`, `total number of lead managers`, `total number of senior managers`, 
 `total number of managers`, and `total number of employees`. Order your output by ascending company_code.
+
+Tables: **Company, Lead_Manager, Senior_Manager, Manager, Employee**
 
 **Note**:
 - The tables may contain duplicate records.
