@@ -71,7 +71,40 @@ Julia just finished conducting a coding contest, and she needs your help assembl
 Tables: **Hackers, Difficulty, Challenges, Submissions** 
 <br>
 
+    SELECT
+        DISTINCT ha.hacker_id,
+        ha.name
+    FROM Hackers ha 
+    INNER JOIN Submissions sub ON ha.hacker_id = sub.hacker_id 
+    INNER JOIN Challenges cha ON cha.challenge_id = sub.challenge_id
+    INNER JOIN Difficulty diff ON diff.difficulty_level = cha.difficulty_level
+    WHERE sub.score = diff.score
+    GROUP BY ha.hacker_id, ha.name
+    HAVING COUNT(sub.hacker_id) > 1
+    ORDER BY COUNT(sub.hacker_id) DESC, ha.hacker_id ASC
 
+### Ollivander's Inventory
+
+Harry Potter and his friends are at Ollivander's with Ron, finally replacing Charlie's old broken wand.
+
+Hermione decides the best way to choose is by determining the minimum number of gold galleons needed to buy each non-evil wand of high power and age. Write a query to print the `id`, `age`, `coins_needed`, and `power of the wands` that Ron's interested in, sorted in order of descending power. If more than one wand has same power, sort the result in order of descending age.
+
+The following tables contain data on the wands in Ollivander's inventory: **Wands** and **Wands_Property**
+<br>
+
+    SELECT 
+        w.id, 
+        wp.age, 
+        w.coins_needed, 
+        w.power 
+    FROM Wands w 
+    INNER JOIN Wands_Property wp ON wp.code = w.code 
+    WHERE  wp.is_evil = 0 
+        AND w.coins_needed = (SELECT MIN(w1.coins_needed) 
+                              FROM   Wands w1 
+                              INNER JOIN wands_property wp1 ON wp1.code = w1.code 
+                              WHERE  wp.age = wp1.age AND w.power = w1.power) 
+    ORDER  BY w.power DESC, wp.age DESC
 
 
 
