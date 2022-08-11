@@ -26,6 +26,18 @@ Given the **CITY** and **COUNTRY** tables, query the names of all the continents
     INNER JOIN country ON country.code = city.countrycode
     GROUP BY country.continent
 
+### Population Census
+
+Given the **CITY** and **COUNTRY** tables, query the sum of the populations of all cities where the **CONTINENT** is 'Asia'.
+
+**Note**: CITY.CountryCode and COUNTRY.Code are matching key columns.
+
+    SELECT
+        SUM(CITY.POPULATION)
+    FROM CITY
+    INNER JOIN COUNTRY ON COUNTRY.CODE = CITY.COUNTRYCODE
+    WHERE COUNTRY.CONTINENT = 'Asia'
+
 ### The Report
 
 You are given two tables: **Students** and **Grades**. Students contains three columns `ID`, `Name` and `Marks`.
@@ -105,6 +117,61 @@ The following tables contain data on the wands in Ollivander's inventory: **Wand
                               INNER JOIN wands_property wp1 ON wp1.code = w1.code 
                               WHERE  wp.age = wp1.age AND w.power = w1.power) 
     ORDER  BY w.power DESC, wp.age DESC
+
+### Challenges
+
+Julia asked her students to create some coding challenges. Write a query to print the hacker_id, name, and the total number of challenges created by each student. Sort your results by the total number of challenges in descending order. If more than one student created the same number of challenges, then sort the result by hacker_id. If more than one student created the same number of challenges and the count is less than the maximum number of challenges created, then exclude those students from the result.
+<br>
+
+    SELECT
+        h1.hacker_id,
+        h1.name,
+        COUNT(DISTINCT c1.challenge_id) AS counts1
+    FROM Hackers h1
+    INNER JOIN Challenges c1 ON c1.hacker_id = h1.hacker_id
+    GROUP BY h1.hacker_id, h1.name
+    HAVING counts1 IN (SELECT student.counts
+                       FROM(SELECT
+                                h.hacker_id AS hacker_id,
+                                h.name AS name,
+                                COUNT(DISTINCT c.challenge_id) AS counts
+                            FROM Hackers h
+                            INNER JOIN Challenges c ON c.hacker_id = h.hacker_id
+                            GROUP BY h.hacker_id, h.name
+                            ) student
+                       GROUP BY student.counts
+                       HAVING COUNT(student.hacker_id) = 1 OR student.counts = 50
+                       )
+    ORDER BY counts1 DESC, h1.hacker_id
+
+
+### Contest Leaderboard
+
+You did such a great job helping Julia with her last coding contest challenge that she wants you to work on this one, too!
+
+The total score of a hacker is the sum of their maximum scores for all of the challenges. Write a query to print the `hacker_id`, `name`, and `total score` of the hackers ordered by the descending score. If more than one hacker achieved the same total score, then sort the result by ascending hacker_id. Exclude all hackers with a total score of 0 from your result.
+
+Table: **Hackers** and **Submissions**
+<br>
+
+    SELECT
+        ms.hacker_id,
+        ms.name,
+        SUM(ms.score)
+    FROM(SELECT
+            h.hacker_id AS hacker_id,
+            h.name AS name,
+            s.challenge_id AS challenge_id,
+            MAX(s.score) AS score
+        FROM Hackers h
+        INNER JOIN Submissions s ON s.hacker_id = h.hacker_id
+        GROUP BY h.hacker_id, h.name, s.challenge_id
+        ) ms
+    GROUP BY ms.hacker_id, ms.name
+    HAVING SUM(ms.score) > 0
+    ORDER BY SUM(ms.score) DESC, ms.hacker_id ASC
+
+
 
 
 
